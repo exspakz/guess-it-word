@@ -2,9 +2,13 @@ entity Term:
     lemma: true
     values:
         agile:
+            адиль
+            агил
             аджайл
+            агайл
         ip:
             айпи
+            ip
         api:
             апи
         benefit:
@@ -14,7 +18,11 @@ entity Term:
         backup:
             бэкап
         backend:
+            backend
             бэкенд
+            бекенд
+            бикент
+            бикенд
         gestures:
             гестуры
         dump:
@@ -23,6 +31,8 @@ entity Term:
             градиент
         deploy:
             деплой
+            дэплой
+            deploy
         interpreter:
             интерпретатор
         iterator:
