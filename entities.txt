@@ -1,0 +1,90 @@
+entity Term:
+    lemma: true
+    values:
+        agile:
+            аджайл
+        ip:
+            айпи
+        api:
+            апи
+        benefit:
+            бенефит
+        benchmark:
+            бенчмарк
+        backup:
+            бэкап
+        backend:
+            бэкенд
+        gestures:
+            гестуры
+        dump:
+            дамп
+        gradient:
+            градиент
+        deploy:
+            деплой
+        interpreter:
+            интерпретатор
+        iterator:
+            итератор
+        captcha:
+            капча
+        compilation:
+            компиляция
+        workaround:
+            костыль
+        moire:
+            муар
+        navbar:
+            навбар
+        parser:
+            парсер
+        periphery:
+            периферия
+        redirect:
+            редирект
+
+
+entity Game:
+    lemma: true
+    values:
+        game:
+            игра
+            %negative
+            играть
+
+
+entity Word:
+    lemma: true
+    values:
+        game:
+            (другое)+ (слово)* | (другое)* (слово)+
+
+
+entity Scores:
+    lemma: true
+    values:
+        scores:
+            баллы
+            очки
+            счет
+
+
+entity Bank:
+    lemma: true
+    values:
+        bank:
+            копилка
+            банк
+            счет
+
+
+entity Rules:
+    lemma: true
+    values:
+        bank:
+            правила
+            %negative
+            .* правильно
+            .* неправильно
+
