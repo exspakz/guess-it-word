@@ -53,6 +53,7 @@ def handle_dialog(request, response, user_storage):
     else:
         curr_views = [v for u, v in choice.items() for i in request.intents if i in u]
     curr_views = list(set([v.get('view') for v in curr_views]))
+
     if len(curr_views) == 1:
         user_storage['mistake_count'] = 0
         view = curr_views[0]
@@ -72,6 +73,7 @@ def handle_dialog(request, response, user_storage):
                     user_storage['prev_view'] = user_storage.get('view')
                     user_storage['prev_entity'].clear()
                     user_storage['prev_entity'] = user_storage.get('entity').copy()
+
                 user_storage['view'] = view
                 view_dict = ViewDict(views_dict.get(user_storage.get('view')))
                 user_storage['entity'].clear()
@@ -132,4 +134,3 @@ def handle_dialog(request, response, user_storage):
         print('собрали response = ', response)
 
         return response, user_storage
-

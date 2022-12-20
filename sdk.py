@@ -1,5 +1,5 @@
 import json
-from random import sample, choice, choices
+from random import sample, choice
 from data import data, DataSet
 
 
@@ -61,8 +61,7 @@ class AliceResponse:
     def dumps(self):
         return json.dumps(
             self._response_dict,
-            ensure_ascii=False,
-            indent=2
+            indent=2,
         )
 
     def set_text(self, text):
