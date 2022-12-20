@@ -114,7 +114,7 @@ class ViewDict:
             self.text1 = user_storage.get('scores_bank')
             self.tts1 = self.text1
         elif self.text1 == '%word%':
-            self.text1 = data.get(user_storage.get('word_received')).get('word')
+            self.text1 = data.get(user_storage.get('question')).get('word').capitalize()
             self.tts1 = self.text1
         elif self.text1 == '%short_text%':
             self.question = choice(list(user_storage.get('questions_set')))
@@ -133,10 +133,21 @@ class ViewDict:
 
         if self.text2 == '%minus_score%':
             if user_storage.get('scores_bank') + self.count_score >= 0:
-                self.text2 = '\n\nМинус один балл.'
+                self.text2 = '. \n\nМинус один балл.'
+                self.tts2 = ' - Минус один балл.'
             else:
-                self.text2 = '\n\nУ тебя пока ноль баллов.'
-            self.tts2 = self.text1
+                self.text2 = '. \n\nУ тебя пока ноль баллов.'
+                self.tts2 = ' - У тебя пока ноль баллов.'
+        elif self.text2 == '%балл%':
+            if user_storage.get('scores_bank') % 10 == 1 \
+                    and (user_storage.get('scores_bank') // 10) % 10 != 1:
+                self.text2 = ' балл.'
+            elif user_storage.get('scores_bank') % 10 in (2, 3, 4) \
+                    and (user_storage.get('scores_bank') // 10) % 10 != 1:
+                self.text2 = ' балла.'
+            else:
+                self.text2 = ' баллов.'
+            self.tts2 = self.text2
 
         compiled_view['text'] = f"{self.text}{self.text1}{self.text2}"
         compiled_view['tts'] = f"{self.tts}{self.tts1}{self.tts2}"
