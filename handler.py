@@ -43,7 +43,7 @@ def handle_dialog(request, response, user_storage):
         request.intents = ['new']
 
     choice = choice_imm.copy()
-    choice.update(user_storage.get('entity').get('ans', {}))
+    choice.update(user_storage.get('entity', {}).get('ans', {}))
 
     if user_storage['view'] == 'ask' and 'question_reply' in request.intents:
         for w in (user_storage['question'], user_storage['wrong_1'], user_storage['wrong_2']):
