@@ -105,8 +105,8 @@ def handle_dialog(request, response, user_storage):
             buttons = [{'title': b, 'hide': True} for b in user_storage.get('entity').get('butt', '')]
             response.set_buttons(buttons)
         elif user_storage['mistake_count'] == 2:
-            response.set_text(f"Опять непонятно. Ответь.\\n\n{user_storage.get('entity').get('rtext')}")
-            response.set_tts(f"Опять непонятно. Ответь. sil<[300]> {user_storage.get('entity').get('rtts')}")
+            response.set_text(f"Опять непонятно. Определись, пожалуйста.\\n\n{user_storage.get('entity').get('rtext')}")
+            response.set_tts(f"Опять непонятно. Определись, пожалуйста. sil<[300]> {user_storage.get('entity').get('rtts')}")
             buttons = [{'title': b, 'hide': True} for b in user_storage.get('entity').get('butt', '')]
             response.set_buttons(buttons)
         elif user_storage['mistake_count'] == 3:
