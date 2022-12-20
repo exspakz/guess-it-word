@@ -39,6 +39,7 @@ def handle_dialog(request, response, user_storage):
         user_storage['prev_entity'] = {}
         user_storage['scores_bank'] = 0
         user_storage['questions_set'] = DataSet.copy()
+        user_storage['mistake_count'] = 0
         request.intents = ['new']
 
     choice = choice_imm.copy()
@@ -53,6 +54,7 @@ def handle_dialog(request, response, user_storage):
         curr_views = [v for u, v in choice.items() for i in request.intents if i in u]
     curr_views = list(set([v.get('view') for v in curr_views]))
     if len(curr_views) == 1:
+        user_storage['mistake_count'] = 0
         view = curr_views[0]
         if view != 'repeat':
             if view == 'return':
@@ -95,10 +97,30 @@ def handle_dialog(request, response, user_storage):
         return response, user_storage
 
     else:
-        response.set_text(f"Не совсем тебя понял.\n\n{user_storage.get('entity').get('rtext')}")
-        response.set_tts(f"Не совсем тебя понял. sil<[300]> {user_storage.get('entity').get('rtts')}")
-        buttons = [{'title': b, 'hide': True} for b in user_storage.get('entity').get('butt', '')]
-        response.set_buttons(buttons)
+        user_storage['mistake_count'] += 1
+        print("\nreceived curr_views = ", curr_views, '\n____________')
+        if user_storage['mistake_count'] == 1:
+            response.set_text(f"Не совсем тебя понял.\n\n{user_storage.get('entity').get('rtext')}")
+            response.set_tts(f"Не совсем тебя понял. sil<[300]> {user_storage.get('entity').get('rtts')}")
+            buttons = [{'title': b, 'hide': True} for b in user_storage.get('entity').get('butt', '')]
+            response.set_buttons(buttons)
+        elif user_storage['mistake_count'] == 2:
+            response.set_text(f"Опять непонятно. Ответь.\\n\n{user_storage.get('entity').get('rtext')}")
+            response.set_tts(f"Опять непонятно. Ответь. sil<[300]> {user_storage.get('entity').get('rtts')}")
+            buttons = [{'title': b, 'hide': True} for b in user_storage.get('entity').get('butt', '')]
+            response.set_buttons(buttons)
+        elif user_storage['mistake_count'] == 3:
+            response.set_text(f"""Что-то идет не так. \nНапомню о чем мы говорили.\
+            \n\n{user_storage.get('entity').get('text')}\n\n{user_storage.get('entity').get('rtext')}""")
+            response.set_tts(f"""Что-то идет не так. \nНапомню о чем мы говорили.\ 
+            sil<[300]> {user_storage.get('entity').get('text')}\n\n{user_storage.get('entity').get('rtext')}""")
+            buttons = [{'title': b, 'hide': True} for b in user_storage.get('entity').get('butt', '')]
+            response.set_buttons(buttons)
+        else:
+            response.set_text(f"""Сегодня, наверное, не мой день! \nДавай попробуем в другой раз.\n\nУдачи!""")
+            response.set_tts(f"""Сегодня - наверное - не мой день! \nДавай попробуем в другой раз. sil<[300]> Удачи!""")
+            response.set_end_session(True)
+            user_storage = {}
 
         response.set_events(
             {
@@ -110,3 +132,4 @@ def handle_dialog(request, response, user_storage):
         print('собрали response = ', response)
 
         return response, user_storage
+

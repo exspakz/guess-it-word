@@ -155,3 +155,4 @@ class ViewDict:
             compiled_view['count_score'] = self.count_score
 
         return compiled_view, self.question, self.wrong_1, self.wrong_2
+
