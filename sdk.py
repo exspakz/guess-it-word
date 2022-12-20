@@ -61,6 +61,7 @@ class AliceResponse:
     def dumps(self):
         return json.dumps(
             self._response_dict,
+            ensure_ascii=False,
             indent=2,
         )
 
