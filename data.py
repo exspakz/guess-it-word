@@ -12,4 +12,3 @@ if __name__ == '__main__':
     print()
     for id in data.items():
         print(id)
-        
