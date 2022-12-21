@@ -41,6 +41,10 @@ class AliceRequest:
     def command(self):
         return self._request_dict.get('request').get('command')
 
+    @property
+    def tokens(self):
+        return self._request_dict.get('request').get('nlu').get('tokens')
+
     def __str__(self):
         return str(self._request_dict)
 
