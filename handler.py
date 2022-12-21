@@ -4,12 +4,14 @@ from data import data, DataSet
 
 
 choice_imm = {
-    ('new',): {'view': 'hi'},
-    ('stop',): {'view': 'stop'},
-    ('repeat', 'YANDEX.REPEAT'): {'view': 'repeat'},
-    ('scores',): {'view': 'scores'},
-    ('help', 'YANDEX.HELP'): {'view': 'help'},
-    ('can_you',): {'view': 'can_you'},
+    'new': {'view': 'hi'},
+    'stop': {'view': 'stop'},
+    'repeat': {'view': 'repeat'},
+    'YANDEX.REPEAT': {'view': 'repeat'},
+    'scores': {'view': 'scores'},
+    'help': {'view': 'help'},
+    'YANDEX.HELP': {'view': 'help'},
+    'can_you': {'view': 'can_you'},
 }
 
 
@@ -24,12 +26,12 @@ def scores_count(user_storage):
     return user_storage
 
 
-def end_session(response, v):
+def end_session(response, v, user_storage):
     response.set_text(f"{v.get('text')}\n\n{v.get('rtext')}")
     response.set_tts(f"{v.get('tts')}\n\n{v.get('rtts')}")
     response.set_end_session(True)
-    user_storage = {}
-    return response, user_storage
+    response.set_session_state(user_storage)
+    return response
 
 
 def if_token_del_intent(token, intent, request):
@@ -40,7 +42,12 @@ def if_token_del_intent(token, intent, request):
     return request
 
 
-def handle_dialog(request, response, user_storage):
+def handle_dialog(request, response):
+
+    user_storage = request.session_state
+    print(user_storage)
+    print()
+
     if request.is_new_session or user_storage is None:
         user_storage = {'view': 'new'}
         user_storage['entity'] = views_dict.get(user_storage.get('view'))
@@ -51,7 +58,9 @@ def handle_dialog(request, response, user_storage):
         request.intents = ['new']
 
     choice = choice_imm.copy()
-    choice.update(user_storage.get('entity', {}).get('ans', {}))
+    choice.update(user_storage.get('entity').get('ans', ''))
+    print('choice = ', choice)
+    print()
 
     request = if_token_del_intent('другое', 'YANDEX.REJECT', request)
 
@@ -83,7 +92,6 @@ def handle_dialog(request, response, user_storage):
                     user_storage['prev_view'] = user_storage.get('view')
                     user_storage['prev_entity'].clear()
                     user_storage['prev_entity'] = user_storage.get('entity').copy()
-
                 user_storage['view'] = view
                 view_dict = ViewDict(views_dict.get(user_storage.get('view')))
                 user_storage['entity'].clear()
@@ -95,18 +103,21 @@ def handle_dialog(request, response, user_storage):
         user_storage = scores_count(user_storage)
 
         if user_storage.get('entity').get('end_session'):
-            return end_session(response, user_storage.get('entity'))
+            return end_session(response, user_storage.get('entity'), user_storage)
 
         response.set_text(f"{user_storage.get('entity').get('text')}\n\n{user_storage.get('entity').get('rtext')}")
         response.set_tts(f"{user_storage.get('entity').get('tts')} sil<[300]> {user_storage.get('entity').get('rtts')}")
         buttons = [{'title': b, 'hide': True} for b in user_storage.get('entity').get('butt', '')]
         response.set_buttons(buttons)
 
+        response.set_session_state(user_storage)
         response.set_events({'name': user_storage.get('view')})
 
+        print('user_storage = ', user_storage)
+        print()
         print('собрали response = ', response)
 
-        return response, user_storage
+        return response
 
     else:
         user_storage['mistake_count'] += 1
@@ -116,11 +127,13 @@ def handle_dialog(request, response, user_storage):
             response.set_tts(f"Не совсем тебя понял. sil<[300]> {user_storage.get('entity').get('rtts')}")
             buttons = [{'title': b, 'hide': True} for b in user_storage.get('entity').get('butt', '')]
             response.set_buttons(buttons)
+            response.set_session_state(user_storage)
         elif user_storage['mistake_count'] == 2:
             response.set_text(f"Опять непонятно. Определись, пожалуйста.\\n\n{user_storage.get('entity').get('rtext')}")
             response.set_tts(f"Опять непонятно. Определись, пожалуйста. sil<[300]> {user_storage.get('entity').get('rtts')}")
             buttons = [{'title': b, 'hide': True} for b in user_storage.get('entity').get('butt', '')]
             response.set_buttons(buttons)
+            response.set_session_state(user_storage)
         elif user_storage['mistake_count'] == 3:
             response.set_text(f"""Что-то идет не так. \nНапомню о чем мы говорили.\
             \n\n{user_storage.get('entity').get('text')}\n\n{user_storage.get('entity').get('rtext')}""")
@@ -128,11 +141,12 @@ def handle_dialog(request, response, user_storage):
             sil<[300]> {user_storage.get('entity').get('text')}\n\n{user_storage.get('entity').get('rtext')}""")
             buttons = [{'title': b, 'hide': True} for b in user_storage.get('entity').get('butt', '')]
             response.set_buttons(buttons)
+            response.set_session_state(user_storage)
         else:
             response.set_text(f"""Сегодня, наверное, не мой день! \nДавай попробуем в другой раз.\n\nУдачи!""")
             response.set_tts(f"""Сегодня - наверное - не мой день! \nДавай попробуем в другой раз. sil<[300]> Удачи!""")
             response.set_end_session(True)
-            user_storage = {}
+            response.set_session_state(user_storage)
 
         response.set_events(
             {
@@ -143,5 +157,4 @@ def handle_dialog(request, response, user_storage):
 
         print('собрали response = ', response)
 
-        return response, user_storage
-
+        return response

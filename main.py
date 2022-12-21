@@ -4,7 +4,6 @@ from sdk import AliceRequest, AliceResponse
 from handler import handle_dialog
 
 app = Flask(__name__)
-session_storage = {}
 
 
 @app.route('/', methods=['POST'])
@@ -15,11 +14,7 @@ def main():
 
     alice_response = AliceResponse(alice_request)
 
-    user_id = alice_request.user_id
-    print('session_storage.get(user_id) to handle ', session_storage.get(user_id))
+    alice_response = handle_dialog(alice_request, alice_response)
 
-    alice_response, session_storage[user_id] = handle_dialog(
-        alice_request, alice_response, session_storage.get(user_id)
-    )
     print('______________________\n_____________________')
     return alice_response.dumps()

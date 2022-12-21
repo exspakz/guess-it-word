@@ -1,7 +1,7 @@
 views_dict = {
     'new': {
         'ans': {
-            ('new', ): {'view': 'hi'},
+            'new': {'view': 'hi'},
         },
     },
     'hi': {
@@ -11,9 +11,11 @@ views_dict = {
         'rtts': 'Играем сразу или сначала - Рассказать правила',
         'butt': ('Начать игру', 'Рассказать правила', 'Выйти'),
         'ans': {
-            ('start_game', 'YANDEX.CONFIRM'): {'view': 'ask'},
-            ('rules', ): {'view': 'rules'},
-            ('end_game', 'YANDEX.REJECT'): {'view': 'exit'},
+            'start_game': {'view': 'ask'},
+            'YANDEX.CONFIRM': {'view': 'ask'},
+            'rules': {'view': 'rules'},
+            'end_game': {'view': 'exit'},
+            'YANDEX.REJECT': {'view': 'exit'},
         },
     },
     'ask': {
@@ -31,7 +33,9 @@ views_dict = {
         'ans': {
             '%corr%': {'view': 'correct'},
             '%wrong%': {'view': 'wrong'},
-            ('end_game', 'YANDEX.REJECT'): {'view': 'exit'},
+            'end_game': {'view': 'exit'},
+            'YANDEX.REJECT': {'view': 'exit'},
+
         },
     },
     'correct': {
@@ -45,8 +49,10 @@ views_dict = {
         'rtts': f'Играем дальше?',  # Сделать разметку!
         'butt': ('Играем', 'Выйти'),
         'ans': {
-            ('start_game', 'YANDEX.CONFIRM'): {'view': 'ask'},
-            ('end_game', 'YANDEX.REJECT'): {'view': 'exit'},
+            'start_game': {'view': 'ask'},
+            'YANDEX.CONFIRM': {'view': 'ask'},
+            'end_game': {'view': 'exit'},
+            'YANDEX.REJECT': {'view': 'exit'},
         },
         'count_score': 3,
     },
@@ -62,8 +68,10 @@ views_dict = {
         'rtts': f'Попробуем другое слово?',  # Сделать разметку!
         'butt': ('Другое слово', 'Выйти'),
         'ans': {
-            ('start_game', 'YANDEX.CONFIRM'): {'view': 'ask'},
-            ('end_game', 'YANDEX.REJECT'): {'view': 'exit'},
+            'start_game': {'view': 'ask'},
+            'YANDEX.CONFIRM': {'view': 'ask'},
+            'end_game': {'view': 'exit'},
+            'YANDEX.REJECT': {'view': 'exit'},
         },
         'pref_choice': ('Не совсем верно.', 'В этот раз не получилось.'),
         'count_score': -1,
@@ -95,8 +103,11 @@ views_dict = {
         'rtts': 'Вернуться в игру?',  # Сделать разметку!
         'butt': ('Вернуться в игру', 'Выйти'),
         'ans': {
-            ('return', 'YANDEX.CONFIRM', 'YANDEX.BOOK.NAVIGATION.PREVIOUS'): {'view': 'return'},
-            ('end_game', 'YANDEX.REJECT'): {'view': 'exit'},
+            'return': {'view': 'return'},
+            'YANDEX.CONFIRM': {'view': 'return'},
+            'YANDEX.BOOK.NAVIGATION.PREVIOUS': {'view': 'return'},
+            'end_game': {'view': 'exit'},
+            'YANDEX.REJECT': {'view': 'exit'},
         },
     },
     'help': {
@@ -110,8 +121,10 @@ views_dict = {
         'rtts': 'sil<[300]> Мне Повторить или - Вернуться в игру?',  # Сделать разметку!
         'butt': ('Вернуться в игру', 'Повтори', 'Выйти'),
         'ans': {
-            ('return', 'YANDEX.BOOK.NAVIGATION.PREVIOUS'): {'view': 'return'},
-            ('end_game', 'YANDEX.REJECT'): {'view': 'exit'},
+            'return': {'view': 'return'},
+            'YANDEX.BOOK.NAVIGATION.PREVIOUS': {'view': 'return'},
+            'end_game': {'view': 'exit'},
+            'YANDEX.REJECT': {'view': 'exit'},
         },
     },
     'can_you': {
@@ -125,8 +138,10 @@ views_dict = {
         'rtts': 'sil<[300]> Вернемся в игру или - Повторить?',  # Сделать разметку!
         'butt': ('Вернуться в игру', 'Повтори', 'Выйти'),
         'ans': {
-            ('return', 'YANDEX.BOOK.NAVIGATION.PREVIOUS'): {'view': 'return'},
-            ('end_game', 'YANDEX.REJECT'): {'view': 'exit'},
+            'return': {'view': 'return'},
+            'YANDEX.BOOK.NAVIGATION.PREVIOUS': {'view': 'return'},
+            'end_game': {'view': 'exit'},
+            'YANDEX.REJECT': {'view': 'exit'},
         },
     },
     'rules': {
@@ -141,8 +156,10 @@ views_dict = {
         'rtts': 'sil<[300]> Начнем игру или - Повторить?',  # Сделать разметку!
         'butt': ('Начать игру', 'Повтори', 'Выйти'),
         'ans': {
-            ('start_game', 'YANDEX.CONFIRM'): {'view': 'ask'},
-            ('end_game', 'YANDEX.REJECT'): {'view': 'exit'},
+            'start_game': {'view': 'ask'},
+            'YANDEX.CONFIRM': {'view': 'ask'},
+            'end_game': {'view': 'exit'},
+            'YANDEX.REJECT': {'view': 'exit'},
         },
     },
 }

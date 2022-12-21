@@ -18,7 +18,7 @@ class AliceRequest:
 
     @property
     def user_id(self):
-        return self.session.get('user_id')
+        return self.session.get('user').get('user_id')
 
     @property
     def is_new_session(self):
@@ -31,6 +31,12 @@ class AliceRequest:
     @intents.setter
     def intents(self, value):
         self._intents = value
+
+    @property
+    def session_state(self):
+        if self._request_dict.get('state', {}).get('session'):
+            self._request_dict['state']['session']['questions_set'] = set(self._request_dict['state']['session']['questions_set'])
+        return self._request_dict.get('state', {}).get('session', None)
 
     @property
     def value(self):
@@ -57,16 +63,18 @@ class AliceResponse:
             'response': {
                 "end_session": False,
             },
+            'session_state': {},
             'analytics': {
                 'events': []
             },
         }
 
     def dumps(self):
+        self._response_dict['session_state']['questions_set'] = list(self._response_dict['session_state']['questions_set'])
         return json.dumps(
             self._response_dict,
             ensure_ascii=False,
-            indent=2,
+            indent=2
         )
 
     def set_text(self, text):
@@ -80,6 +88,9 @@ class AliceResponse:
 
     def set_end_session(self, flag):
         self._response_dict['response']['end_session'] = flag
+
+    def set_session_state(self, value):
+        self._response_dict['session_state'] = value
 
     def set_events(self, event):
         self._response_dict['analytics']['events'].append(event)
@@ -132,8 +143,8 @@ class ViewDict:
             self.rtext1 = f"{self.butt[0]}, {self.butt[1]} или {self.butt[2]}"
             self.rtts1 = f"- {self.butt[0]}, - {self.butt[1]} или - {self.butt[2]}"
             self.ans[f"{data.get(self.question).get('value')}"] = self.ans.get('%corr%')
-            self.ans[(f"{data.get(self.wrong_1).get('value')}",
-                      f"{data.get(self.wrong_2).get('value')}")] = self.ans.get('%wrong%')
+            self.ans[f"{data.get(self.wrong_1).get('value')}"] = self.ans.get('%wrong%')
+            self.ans[f"{data.get(self.wrong_2).get('value')}"] = self.ans.get('%wrong%')
 
         if self.text2 == '%minus_score%':
             if user_storage.get('scores_bank') + self.count_score >= 0:
@@ -170,4 +181,3 @@ class ViewDict:
             compiled_view['count_score'] = self.count_score
 
         return compiled_view, self.question, self.wrong_1, self.wrong_2
-
