@@ -32,6 +32,14 @@ def end_session(response, v):
     return response, user_storage
 
 
+def if_token_del_intent(token, intent, request):
+    if token in request.tokens and intent in request.intents:
+        ls = request.intents
+        ls.remove('YANDEX.REJECT')
+        request.intents = ls
+    return request
+
+
 def handle_dialog(request, response, user_storage):
     if request.is_new_session or user_storage is None:
         user_storage = {'view': 'new'}
@@ -44,6 +52,9 @@ def handle_dialog(request, response, user_storage):
 
     choice = choice_imm.copy()
     choice.update(user_storage.get('entity').get('ans', ''))
+    print('choice = ', choice)
+
+    request = if_token_del_intent('другое', 'YANDEX.REJECT', request)
 
     if user_storage['view'] == 'ask' and 'question_reply' in request.intents:
         for w in (user_storage['question'], user_storage['wrong_1'], user_storage['wrong_2']):
@@ -53,6 +64,7 @@ def handle_dialog(request, response, user_storage):
     else:
         curr_views = [v for u, v in choice.items() for i in request.intents if i in u]
     curr_views = list(set([v.get('view') for v in curr_views]))
+
     if len(curr_views) == 1:
         user_storage['mistake_count'] = 0
         view = curr_views[0]
@@ -132,4 +144,3 @@ def handle_dialog(request, response, user_storage):
         print('собрали response = ', response)
 
         return response, user_storage
-
