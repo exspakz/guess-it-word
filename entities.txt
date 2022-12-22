@@ -1,38 +1,30 @@
 entity Term:
     lemma: true
     values:
-        agile:
-            адиль
-            агил
-            аджайл
-            агайл
+        id:
+            айди
+            id
         ip:
             айпи
             ip
         api:
             апи
+        authorization:
+            авторизация
         benefit:
             бенефит
         benchmark:
             бенчмарк
         backup:
             бэкап
-        backend:
-            backend
-            бэкенд
-            бекенд
-            бикент
-            бикенд
         gestures:
             гестуры
-        dump:
-            дамп
         gradient:
             градиент
-        deploy:
-            деплой
-            дэплой
-            deploy
+        dump:
+            дамп
+        upload:
+            залить
         interpreter:
             интерпретатор
         iterator:
@@ -43,26 +35,45 @@ entity Term:
             компиляция
         workaround:
             костыль
-        moire:
+        meetup:
             муар
-        navbar:
-            навбар
+        rollback:
+            откат
         parser:
             парсер
         periphery:
             периферия
-        redirect:
-            редирект
-
+        fix:
+            фиксить
+            пофиксить
+        review:
+            ревью
+        repository:
+            репозиторий
+        software:
+            софт
+        stack:
+            стек
+        template:
+            темплейт
+        hackathon:
+            хакатон
+        feedback:
+            фидбек
+            фидбэк
+            фитбек
+            фитбэк
+        usability:
+            юзабилити
+        hard:
+            хард
 
 entity Game:
     lemma: true
     values:
         game:
             игра
-            %negative
             играть
-
 
 entity Word:
     lemma: true
@@ -79,7 +90,6 @@ entity Scores:
             очки
             счет
 
-
 entity Bank:
     lemma: true
     values:
@@ -87,7 +97,6 @@ entity Bank:
             копилка
             банк
             счет
-
 
 entity Rules:
     lemma: true
@@ -97,4 +106,3 @@ entity Rules:
             %negative
             .* правильно
             .* неправильно
-
