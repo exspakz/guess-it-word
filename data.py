@@ -1,9 +1,7 @@
 import json
-import pandas
 
-excel_data = pandas.read_excel('it_dict.xlsx',)
-json_data = excel_data.to_json(orient='index', force_ascii=False)
-data = json.loads(json_data)
+with open('it_dict.json', 'r', encoding='utf-8') as json_file:
+    data = json.load(json_file)
 
 DataSet = set(data)
 

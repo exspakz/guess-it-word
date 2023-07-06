@@ -1,4 +1,5 @@
-can_you
+## can_you
+```
 $Canyou:
     %lemma
     что (ты)* (умеешь|можешь)
@@ -6,9 +7,10 @@ root:
     .* $Canyou .*
 filler:
     алиса
+```
 
-
-end_game
+## end_game
+```
 slots:
     game:
         source: $Game
@@ -27,9 +29,10 @@ root:
     [($End)+ ($Game)*]
 filler:
     алиса
+```
 
-
-help
+## help
+```
 $Help:
     %lemma
     помоги
@@ -38,15 +41,17 @@ root:
     .* $Help .*
 filler:
     алиса
+```
 
-
-new
+## new
+```
 root:
     Угадай АйТи слово
     mmm test
+```
 
-
-question_reply
+## question_reply
+```
 slots:
     term:
         source: $Term
@@ -69,9 +74,10 @@ filler:
     вроде
     думаю
     это
+```
 
-
-repeat
+## repeat
+```
 $Repeat:
     %lemma
     повтор
@@ -81,9 +87,10 @@ root:
     $Repeat
 filler:
     алиса
+```
 
-
-return
+## return
+```
 slots:
     game:
         source: $Game
@@ -98,9 +105,10 @@ root:
 filler:
     алиса
     в
+```
 
-
-rules
+## rules
+```
 slots:
     rules:
         source: $Rules
@@ -116,9 +124,10 @@ filler:
     алиса
     о
     про
+```
 
-
-scores
+## scores
+```
 slots:
     scores:
         source: $Scores
@@ -136,9 +145,10 @@ filler:
     сколько
     у меня
     какой
+```
 
-
-start_game
+## start_game
+```
 slots:
     game:
         source: $Game
@@ -167,9 +177,10 @@ root:
 filler:
     алиса
     еще
+```
 
-
-stop
+## stop
+```
 $Stop:
     %lemma
     стоп
@@ -178,3 +189,4 @@ root:
     $Stop
 filler:
     алиса
+```

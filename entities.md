@@ -1,3 +1,4 @@
+```
 entity Term:
     lemma: true
     values:
@@ -81,7 +82,6 @@ entity Word:
         game:
             (другое)+ (слово)* | (другое)* (слово)+
 
-
 entity Scores:
     lemma: true
     values:
@@ -106,3 +106,4 @@ entity Rules:
             %negative
             .* правильно
             .* неправильно
+```
